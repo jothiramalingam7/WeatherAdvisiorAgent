@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /root/.local /root/.local
 
 # Copy the application source code
-COPY . .
+COPY . ./backend/
 
 # Update path to resolve installed commands (like uvicorn, alembic)
 ENV PATH=/root/.local/bin:$PATH
