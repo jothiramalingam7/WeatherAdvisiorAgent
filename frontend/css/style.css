@@ -1,0 +1,706 @@
+/* -------------------------------------------------------------
+   Google Fonts: Outfit (headings) & Inter (body)
+   ------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+/* -------------------------------------------------------------
+   Design System Tokens & Root Values
+   ------------------------------------------------------------- */
+:root {
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* AgriWeather Forest Dark Mode Palette */
+    --bg-main: #060d0a;
+    --bg-card: rgba(12, 24, 18, 0.75);
+    --border-card: rgba(255, 255, 255, 0.06);
+    --border-focused: rgba(16, 185, 129, 0.4);
+
+    /* Text Colors */
+    --text-primary: #f0f7f4;
+    --text-secondary: #a3b899;
+    --text-muted: #6b7f64;
+
+    /* Accents (Agricultural gradients) */
+    --accent-green: #10b981;
+    --accent-gold: #f59e0b;
+    --grad-primary: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --grad-hover: linear-gradient(135deg, #059669 0%, #047857 100%);
+
+    /* Risk Color Tokens */
+    --risk-low-bg: rgba(16, 185, 129, 0.12);
+    --risk-low-text: #34d399;
+    --risk-low-border: rgba(16, 185, 129, 0.25);
+
+    --risk-moderate-bg: rgba(245, 158, 11, 0.12);
+    --risk-moderate-text: #fbbf24;
+    --risk-moderate-border: rgba(245, 158, 11, 0.25);
+
+    --risk-high-bg: rgba(249, 115, 22, 0.12);
+    --risk-high-text: #fb923c;
+    --risk-high-border: rgba(249, 115, 22, 0.25);
+
+    --risk-severe-bg: rgba(239, 68, 68, 0.12);
+    --risk-severe-text: #f87171;
+    --risk-severe-border: rgba(239, 68, 68, 0.25);
+
+    /* Confidence Levels */
+    --conf-high-bg: rgba(16, 185, 129, 0.15);
+    --conf-high-text: #34d399;
+    --conf-medium-bg: rgba(245, 158, 11, 0.15);
+    --conf-medium-text: #fbbf24;
+    --conf-low-bg: rgba(239, 68, 68, 0.15);
+    --conf-low-text: #f87171;
+
+    /* Transitions & Shadows */
+    --trans-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --trans-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --glow-green: 0 0 25px rgba(16, 185, 129, 0.12);
+}
+
+/* -------------------------------------------------------------
+   Base Resets
+   ------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.04) 0%, transparent 40%);
+    background-attachment: fixed;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+}
+
+/* -------------------------------------------------------------
+   Header Layout
+   ------------------------------------------------------------- */
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+header h1 {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+/* -------------------------------------------------------------
+   Main Grid Layout
+   ------------------------------------------------------------- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* -------------------------------------------------------------
+   Glassmorphic Card Styles
+   ------------------------------------------------------------- */
+.glass-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-card);
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    transition: var(--trans-normal);
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* -------------------------------------------------------------
+   Form Element Styles
+   ------------------------------------------------------------- */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+}
+
+.input-control {
+    width: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-card);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    transition: var(--trans-fast);
+}
+
+.input-control::placeholder {
+    color: var(--text-muted);
+}
+
+.input-control:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+textarea.input-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* -------------------------------------------------------------
+   Interactive Buttons
+   ------------------------------------------------------------- */
+.btn-primary {
+    width: 100%;
+    background: var(--grad-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--trans-normal);
+    box-shadow: var(--glow-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    background: var(--grad-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.25);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* -------------------------------------------------------------
+   Loading Spinner
+   ------------------------------------------------------------- */
+.loading-wrapper {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.spinner {
+    width: 45px;
+    height: 45px;
+    border: 4px solid rgba(255, 255, 255, 0.05);
+    border-top: 4px solid var(--accent-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-wrapper p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* -------------------------------------------------------------
+   Advisory Presentation Pane
+   ------------------------------------------------------------- */
+.results-wrapper {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Color Coded Risk Badge */
+.risk-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-card);
+    padding-bottom: 1rem;
+}
+
+.risk-header h2 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.risk-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid transparent;
+}
+
+.risk-badge.low {
+    background-color: var(--risk-low-bg);
+    color: var(--risk-low-text);
+    border-color: var(--risk-low-border);
+}
+
+.risk-badge.moderate {
+    background-color: var(--risk-moderate-bg);
+    color: var(--risk-moderate-text);
+    border-color: var(--risk-moderate-border);
+}
+
+.risk-badge.high {
+    background-color: var(--risk-high-bg);
+    color: var(--risk-high-text);
+    border-color: var(--risk-high-border);
+}
+
+.risk-badge.severe {
+    background-color: var(--risk-severe-bg);
+    color: var(--risk-severe-text);
+    border-color: var(--risk-severe-border);
+}
+
+/* Advisory Content Body */
+.advisory-body {
+    margin-bottom: 2rem;
+}
+
+.advisory-summary {
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.advisory-recs-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.advisory-recs-list {
+    list-style: none;
+}
+
+.advisory-recs-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.advisory-recs-list li::before {
+    content: "✦";
+    position: absolute;
+    left: 0;
+    color: var(--accent-green);
+    font-size: 0.85rem;
+}
+
+/* Live Weather Stats Widget Grid */
+.weather-widget {
+    background-color: rgba(15, 23, 42, 0.45);
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.weather-city-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.weather-city-info span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.weather-temp-desc {
+    text-align: right;
+}
+
+.weather-temp {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.weather-desc {
+    font-size: 0.9rem;
+    color: var(--accent-green);
+    font-weight: 500;
+}
+
+.weather-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    border-top: 1px solid var(--border-card);
+    padding-top: 1.25rem;
+}
+
+.weather-stat-box {
+    text-align: center;
+}
+
+.weather-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.weather-stat-value {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* -------------------------------------------------------------
+   Collapsible History Panel
+   ------------------------------------------------------------- */
+.history-section {
+    margin-top: 2.5rem;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(30, 41, 59, 0.45);
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    transition: var(--trans-fast);
+}
+
+.history-header:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.history-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.history-chevron {
+    font-size: 0.9rem;
+    transition: var(--trans-normal);
+}
+
+.history-section.expanded .history-chevron {
+    transform: rotate(180deg);
+}
+
+.history-content {
+    display: none;
+    margin-top: 1rem;
+    animation: slideDown 0.3s ease-out;
+}
+
+.history-section.expanded .history-content {
+    display: block;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.history-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.history-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+    background-color: var(--border-card);
+    border-radius: 3px;
+}
+
+.history-item {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--border-card);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: var(--trans-fast);
+}
+
+.history-item:hover {
+    border-color: rgba(168, 85, 247, 0.25);
+    background: rgba(22, 28, 45, 0.5);
+}
+
+.history-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.history-city {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.history-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.history-context {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.5rem;
+}
+
+.history-summary-line {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* -------------------------------------------------------------
+   Error Notifications
+   ------------------------------------------------------------- */
+.error-banner {
+    display: none;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #f87171;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    align-items: center;
+    gap: 0.5rem;
+    animation: shake 0.4s ease-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* -------------------------------------------------------------
+   AgriWeather Report Structured Layout Styles
+   ------------------------------------------------------------- */
+.badge-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.confidence-badge {
+    padding: 0.35rem 0.8rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border: 1px solid transparent;
+}
+
+.confidence-badge.high {
+    background-color: var(--conf-high-bg);
+    color: var(--conf-high-text);
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.confidence-badge.medium {
+    background-color: var(--conf-medium-bg);
+    color: var(--conf-medium-text);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.confidence-badge.low {
+    background-color: var(--conf-low-bg);
+    color: var(--conf-low-text);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.bottom-line-card {
+    background: rgba(16, 185, 129, 0.08);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 4px 12px 12px 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.bottom-line-card h4 {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.bottom-line-card p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.alerts-card {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    display: none; /* Shown dynamically if active warnings exist */
+}
+
+.alerts-card.active {
+    display: block;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.alerts-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--risk-severe-text);
+    margin-bottom: 0.5rem;
+}
+
+.alerts-card h4 {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.alerts-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.advisory-section {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding-bottom: 1.25rem;
+}
+
+.advisory-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.advisory-section h4 {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.advisory-section p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.advisory-section p.supporting-data-para {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}

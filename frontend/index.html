@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriWeather Advisor: Intelligent Agricultural Decision Support</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Application Header -->
+        <header>
+            <h1 class="logo-text">AgriWeather Advisor</h1>
+            <p>Accurate, location-specific, and actionable farming decisions grounded in meteorological data</p>
+        </header>
+
+        <!-- Main Layout Grid -->
+        <div class="grid-layout">
+            
+            <!-- Left Panel: Request Input Form -->
+            <section class="glass-card">
+                <form id="advisory-form" onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label for="city">Location</label>
+                        <input 
+                            type="text" 
+                            id="city" 
+                            class="input-control" 
+                            placeholder="e.g. Coimbatore, Erode, or GPS coordinates" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="crop-context">Crop & Growth Stage</label>
+                        <input 
+                            type="text" 
+                            id="crop-context" 
+                            class="input-control" 
+                            placeholder="e.g. Tomato at flowering, Paddy at seedling" 
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="farming-decision">Farming Decision / Question</label>
+                        <textarea 
+                            id="farming-decision" 
+                            class="input-control" 
+                            placeholder="e.g. Should I irrigate today? Is it safe to spray pesticide this afternoon?" 
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="btn-primary">
+                        <span>Generate Advisor Report</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </form>
+
+                <!-- Collapsible History Panel -->
+                <div class="history-section" id="history-section">
+                    <div class="history-header" id="history-toggle">
+                        <h3>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Advisory History</span>
+                        </h3>
+                        <span class="history-chevron">▼</span>
+                    </div>
+                    
+                    <div class="history-content">
+                        <div class="history-list" id="history-list">
+                            <!-- Populated dynamically via JS -->
+                            <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 1rem;">No advisory history yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Dynamic Response / Loading states -->
+            <section class="glass-card" style="min-height: 450px; display: flex; flex-direction: column; justify-content: center;">
+                
+                <!-- Friendly welcome/placeholder state -->
+                <div class="loading-wrapper" id="placeholder-state" style="display: flex;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1.5rem; opacity: 0.85;"><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m12.72-12.72l-1.41 1.41M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <p style="font-size: 1.1rem; color: var(--text-primary); text-align: center; max-width: 80%;">Provide your location, crop growth stage, and farming decision to generate a detailed agricultural safety & planning report.</p>
+                </div>
+
+                <!-- Loading State Spinner -->
+                <div class="loading-wrapper" id="loading-state">
+                    <div class="spinner"></div>
+                    <p>Consulting meteorological & agronomic data...</p>
+                </div>
+
+                <!-- Error Banner -->
+                <div class="error-banner" id="error-banner">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span id="error-message">Failed to connect to the weather service API.</span>
+                </div>
+
+                <!-- Advisory Results presentation card -->
+                <div class="results-wrapper" id="results-wrapper">
+                    <!-- Color-Coded Risk Badge -->
+                    <div class="risk-header">
+                        <h2>Farming Report</h2>
+                        <div class="badge-row">
+                            <span class="confidence-badge" id="confidence-badge">High Confidence</span>
+                            <span class="risk-badge" id="risk-badge">Moderate</span>
+                        </div>
+                    </div>
+
+                    <!-- Advisory Output -->
+                    <div class="advisory-body">
+                        <!-- Bottom-Line Card -->
+                        <div class="bottom-line-card" id="bottom-line-card">
+                            <h4>Bottom-Line Recommendation</h4>
+                            <p id="bottom-line-text">Bottom-line advisory will load here.</p>
+                        </div>
+
+                        <!-- Risks & Warnings Banner -->
+                        <div class="alerts-card" id="alerts-card">
+                            <div class="card-header">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                <h4>Urgent Risks & Safety Alerts</h4>
+                            </div>
+                            <p id="alerts-text">No active risks detected.</p>
+                        </div>
+
+                        <!-- Reasoning -->
+                        <div class="advisory-section">
+                            <h4>Agronomic Rationale</h4>
+                            <p id="reasoning-text">Reasoning will load here...</p>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="advisory-section">
+                            <h4>Actionable Steps</h4>
+                            <ul class="advisory-recs-list" id="recs-list">
+                                <!-- Bullet recommendations go here -->
+                            </ul>
+                        </div>
+
+                        <!-- Next Steps -->
+                        <div class="advisory-section">
+                            <h4>Next Steps & Monitoring thresholds</h4>
+                            <p id="next-steps-text">Suggested thresholds to watch will load here.</p>
+                        </div>
+
+                        <!-- Supporting Weather Data Info -->
+                        <div class="advisory-section">
+                            <h4>Supporting Weather Data & Source</h4>
+                            <p class="supporting-data-para" id="supporting-data-text">Weather data stats and timestamps...</p>
+                        </div>
+                    </div>
+
+                    <!-- Live Weather Stats widget -->
+                    <div class="weather-widget">
+                        <div class="weather-header">
+                            <div class="weather-city-info">
+                                <h3 id="weather-city">Coimbatore</h3>
+                                <span id="weather-coords">11.0168° N, 76.9558° E</span>
+                            </div>
+                            <div class="weather-temp-desc">
+                                <div class="weather-temp" id="weather-temp">34°C</div>
+                                <div class="weather-desc" id="weather-condition">Scattered clouds</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Weather Stat Metrics -->
+                        <div class="weather-details-grid">
+                            <div class="weather-stat-box">
+                                <div class="weather-stat-label">Feels Like</div>
+                                <div class="weather-stat-value" id="weather-feels">41.5°C</div>
+                            </div>
+                            <div class="weather-stat-box">
+                                <div class="weather-stat-label">Humidity</div>
+                                <div class="weather-stat-value" id="weather-humidity">78%</div>
+                            </div>
+                            <div class="weather-stat-box">
+                                <div class="weather-stat-label">Wind</div>
+                                <div class="weather-stat-value" id="weather-wind">4.1 m/s</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+</body>
+</html>

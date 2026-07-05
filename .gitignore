@@ -1,0 +1,38 @@
+# Node.js dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+
+# Logs
+*.log
+logs/
+
+# Build output
+dist/
+build/
+
+# Coverage
+coverage/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python virtual environment
+.venv/
+__pycache__/
+*.pyc
+
+# Test cache
+.pytest_cache/
+
+# MongoDB local data
+data/
