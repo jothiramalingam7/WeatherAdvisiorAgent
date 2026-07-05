@@ -120,7 +120,7 @@ class AdvisoryService:
 
     async def _call_gemini(self, user_message: str) -> str:
         # Use gemini-1.5-flash as a standard lightweight model
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={self.gemini_api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={self.gemini_api_key}"
         payload = {
             "systemInstruction": {
                 "parts": [{"text": SYSTEM_PROMPT}]
